@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const UserModel = require('./user');
 const EventModel = require('./event');
+const SuggestionModel = require('./suggestion');
+const UserEventModel = require('./userEvent');
 
 const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT } = process.env;
 
@@ -15,6 +17,8 @@ const setupDatabase = () => {
 
     const User = UserModel(connection, Sequelize);
     const Event = EventModel(connection, Sequelize);
+    const Suggestion = SuggestionModel(connection, Sequelize);
+    const UserEvent = UserEventModel(connection, Sequelize);
 
     User.hasMany(Event, {
       foreignKey: {
@@ -33,23 +37,77 @@ const setupDatabase = () => {
         },
       }, 
     });
-    
-
-    // User.hasMany(UserEvents);
-    // UserEvents.belongsTo(User);
-    // Event.hasMany(UserEvents);
-    // UserEvents.belongsTo(Event);
-
-    // Suggestion.belongsTo(User);
-    // User.hasMany(Suggestion);
-
-    // Suggestion.belongsTo(Event);
-    // Event.hasMany(Suggestion);
+    User.hasMany(UserEvent, {
+      foreignKey: {
+        allowNull: true,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    UserEvent.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    Event.hasMany(UserEvent, {
+      foreignKey: {
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    UserEvent.belongsTo(Event, {
+      foreignKey: {
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    Suggestion.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    User.hasMany(Suggestion, {
+      foreignKey: {
+        allowNull: true,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    Suggestion.belongsTo(Event, {
+      foreignKey: {
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
+    Event.hasMany(Suggestion, {
+      foreignKey: {
+        allowNull: true,
+        validate: {
+            notEmpty: true,
+        },
+      },
+    });
 
     connection.sync({ alter: true });
     return {
         User,
         Event,
+        Suggestion,
+        UserEvent,
     };
 };
 

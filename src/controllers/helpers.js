@@ -1,10 +1,12 @@
-const { User, Event } = require('../models');
+const { User, Event, Suggestion, UserEvent } = require('../models');
 const getError404 = (model) => ({ error: `${model} does not exist` });
 
 const getModel = (model) => {
     const models = {
         user: User,
-        event: Event,    
+        event: Event,
+        suggestion: Suggestion,
+        userEvent: UserEvent,    
     };
 
     return models[model];
@@ -12,6 +14,7 @@ const getModel = (model) => {
 
 const getOptions = (model) => {
   if (model === 'event') return { include: User };
+  if (model === 'suggestion' || model === 'userEvent') return { include: [User, Event]};
 
   return {};
 };
@@ -42,7 +45,7 @@ const getAllEntry = async (res, model) => {
         const Model = getModel(model);
         const entries = await Model.findAll(getOptions(model));
     
-        if (model === 'event') {
+        if (model === 'event'|| model === 'suggestion' || model === 'userEvent') {
             entries.forEach((entry) => {
                 if (entry.User) {
                     removePswd(entry.User.get());

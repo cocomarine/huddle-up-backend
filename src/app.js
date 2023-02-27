@@ -1,6 +1,8 @@
 const express = require('express');
 const userRouter = require('./routers/user');
 const eventRouter = require('./routers/event');
+const userEventRouter = require('./routers/userEvent');
+const suggestionRouter = require('./routers/suggestion');
 
 const app = express();
 
@@ -12,7 +14,7 @@ app.get('/', (_, res) => {
 
 app.use('/users', userRouter);
 app.use('/events', eventRouter);
-// app.use('/userevents', userEventRouter);
-// app.use('/suggestions', suggestionsRouter);
+app.use('/userevents', userEventRouter);
+app.use('/suggestions', suggestionRouter);
 
 module.exports = app;
