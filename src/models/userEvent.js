@@ -18,6 +18,6 @@ module.exports = (connection, DataTypes) => {
       },
     },
   };
-  const userEventModel = connection.define('UserEvent', schema);
-  return userEventModel;
-}
+  const UserEventModel = connection.define('UserEvent', schema);
+  return UserEventModel;
+};

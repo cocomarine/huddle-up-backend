@@ -3,6 +3,7 @@ const UserModel = require('./user');
 const EventModel = require('./event');
 const SuggestionModel = require('./suggestion');
 const UserEventModel = require('./userEvent');
+const RoleModel = require('./role');
 
 const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT } = process.env;
 
@@ -19,6 +20,7 @@ const setupDatabase = () => {
     const Event = EventModel(connection, Sequelize);
     const Suggestion = SuggestionModel(connection, Sequelize);
     const UserEvent = UserEventModel(connection, Sequelize);
+    const Role = RoleModel(connection, Sequelize);
 
     User.belongsToMany(Event, {
       through: UserEvent,
@@ -41,12 +43,17 @@ const setupDatabase = () => {
     Event.hasMany(Suggestion);
     Suggestion.belongsTo(Event);
 
+    // User.belongsToMany(Role);
+    // Role.belongsToMany(Role);
+
+
     connection.sync({ alter: true });
     return {
         User,
         Event,
         Suggestion,
         UserEvent,
+        Role
     };
 };
 
