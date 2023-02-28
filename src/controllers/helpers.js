@@ -13,15 +13,19 @@ const getModel = (model) => {
 };
 
 const getOptions = (model) => {
-  if (model === 'event') return { include: User };
+  if (model === 'user') return { include: [Event, Suggestion]};
+  if (model === 'event') return { include: [User, Suggestion] };
   if (model === 'suggestion' || model === 'userEvent') return { include: [User, Event]};
 
   return {};
 };
 
 const removePswd = (obj) => {
-    if (obj.hasOwnProperty('password')) {
-        delete obj.password;
+    // if (obj.hasOwnProperty('password')) {
+    //     delete obj.password;
+    // }
+    if(Object.prototype.hasOwnProperty.call(obj, 'password')) {
+      delete obj.password;
     }
   
     return obj;
@@ -68,7 +72,7 @@ const getEntryById = async (res, model, id) => {
 
         if (!entry) res.status(404).json(getError404(model));
     
-        if (model === 'event' && entry.User) removePswd(entry.User.get());
+        if (entry.User) removePswd(entry.User.get());
 
         const entryWithoutPswd = removePswd(entry.get());
 

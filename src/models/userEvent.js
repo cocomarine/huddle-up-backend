@@ -1,13 +1,22 @@
 module.exports = (connection, DataTypes) => {
   const schema = {
-    votes_cast: DataTypes.INTEGER,
-    // allowNull: false,
-    // validate: {
-    //   notNull: {
-    //     args: [true],
-    //     msg: "number of votes cast is required",
-    //   },
-    // },
+    // forcing to have a single primary key
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    votes_cast: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: [true],
+          msg: "boolean value is required",
+        },
+      },
+    },
   };
   const userEventModel = connection.define('UserEvent', schema);
   return userEventModel;

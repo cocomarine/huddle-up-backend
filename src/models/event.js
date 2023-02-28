@@ -20,16 +20,6 @@ module.exports = (connection, DataTypes) => {
         },
       },
     },
-    votes_per_person: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          args: [true],
-          msg: "number of votes per person is required",
-        },
-      },
-    },
     voting_finished: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

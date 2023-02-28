@@ -20,87 +20,26 @@ const setupDatabase = () => {
     const Suggestion = SuggestionModel(connection, Sequelize);
     const UserEvent = UserEventModel(connection, Sequelize);
 
-    User.hasMany(Event, {
-      foreignKey: {
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        },
-      },
+    User.belongsToMany(Event, {
+      through: UserEvent,
+    });
+    Event.belongsToMany(User, { 
+      through: UserEvent,
     });
     Event.belongsTo(User, { 
-      // as: 'Admin', 
-      foreignKey: {
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        },
-      }, 
+      as: 'Admin',
     });
-    User.hasMany(UserEvent, {
-      foreignKey: {
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    UserEvent.belongsTo(User, {
-      foreignKey: {
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    Event.hasMany(UserEvent, {
-      foreignKey: {
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    UserEvent.belongsTo(Event, {
-      foreignKey: {
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    Suggestion.belongsTo(User, {
-      foreignKey: {
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    User.hasMany(Suggestion, {
-      foreignKey: {
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    Suggestion.belongsTo(Event, {
-      foreignKey: {
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
-    Event.hasMany(Suggestion, {
-      foreignKey: {
-        allowNull: true,
-        validate: {
-            notEmpty: true,
-        },
-      },
-    });
+
+    User.hasMany(UserEvent);
+    UserEvent.belongsTo(User);
+    Event.hasMany(UserEvent);
+    UserEvent.belongsTo(Event);
+
+    User.hasMany(Suggestion);
+    Suggestion.belongsTo(User);
+
+    Event.hasMany(Suggestion);
+    Suggestion.belongsTo(Event);
 
     connection.sync({ alter: true });
     return {
