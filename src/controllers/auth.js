@@ -5,12 +5,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 exports.signup = (req, res) => {
+  const { first_name, last_name, email, password } = req.body;
+
   // creating user with encrypted password
   User.create({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    first_name: first_name,
+    last_name: last_name,
+    email: email.toLowerCase(),
+    password: bcrypt.hashSync(password, 8)
   })
     .then(res.send({ message: "User is registered succesfully!" }))
     .catch((err) => {
@@ -19,10 +21,12 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
+  const { email, password } = req.body;
+
   // finding user with the same email address in the database
   User.findOne({
     where: {
-      email: req.body.email
+      email: email.toLowerCase()
     }
   })
     .then((user) => {
@@ -34,7 +38,7 @@ exports.signin = (req, res) => {
       // when user of matching email found, 
       // compare the password with stored encrypted password 
       const passwordIsValid = bcrypt.compareSync(
-        req.body.password,
+        password,
         user.password
       );
       
@@ -42,7 +46,7 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Credentials!"
         });
       }
 
@@ -57,7 +61,7 @@ exports.signin = (req, res) => {
         last_name: user.last_name,
         email: user.email,
         accessToken: token,
-        message: `Welcome to HuddleUp, ${user.first_name}! Let's get `
+        message: `Welcome to HuddleUp, ${user.first_name}! Let's get together!`
       })
         .catch((err) => {
           res.status(500).send({ message: err.message });
