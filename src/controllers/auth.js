@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 exports.signup = (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   // creating user with encrypted password
   User.create({
-    first_name: first_name,
-    last_name: last_name,
+    first_name: firstName,
+    last_name: lastName,
     email: email.toLowerCase(),
     password: bcrypt.hashSync(password, 8)
   })
     .then(res.send({ message: "User is registered succesfully!" }))
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
