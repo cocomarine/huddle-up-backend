@@ -62,9 +62,9 @@ exports.signin = (req, res) => {
         email: user.email,
         accessToken: token,
         message: `Welcome to HuddleUp, ${user.first_name}! Let's get together!`
-      })
-        .catch((err) => {
-          res.status(500).send({ message: err.message });
-        });
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send({ message: err.message });
     });
 };
