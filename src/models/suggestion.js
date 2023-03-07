@@ -9,7 +9,7 @@ module.exports = (connection, DataTypes) => {
       validate: {
         notNull: {
           args: [true],
-          msg: "total number of votes is required",
+          msg: "number of votes is required",
         },
       },
     },
