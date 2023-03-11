@@ -32,7 +32,6 @@ app.get('/', (_, res) => {
   res.status(200).json({ message: 'Welcome to HuddleUp!'});
 });
 
-
 app.use('/users', userRouter);
 app.use('/events', eventRouter);
 app.use('/userevents', userEventRouter);

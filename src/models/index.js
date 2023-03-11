@@ -43,6 +43,10 @@ const setupDatabase = () => {
     Event.hasMany(Suggestion);
     Suggestion.belongsTo(Event);
 
+    // UserEvent.belongsTo(Suggestion, {
+    //   as: 'VotedSuggestion',
+    // });
+
     // User.belongsToMany(Role);
     // Role.belongsToMany(Role);
 

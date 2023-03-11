@@ -7,16 +7,9 @@ module.exports = (connection, DataTypes) => {
       autoIncrement: true,
       allowNull: false,
     },
-    votes_cast: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      validate: {
-        notNull: {
-          args: [true],
-          msg: "boolean value is required",
-        },
-      },
-    },
+    voted_suggestionId: {
+      type: DataTypes.INTEGER,
+    }
   };
   const UserEventModel = connection.define('UserEvent', schema);
   return UserEventModel;
