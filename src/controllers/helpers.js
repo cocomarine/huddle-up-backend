@@ -37,8 +37,9 @@ const createEntry = async (res, model, entry) => {
 
     res.status(201).json(entryWithoutPswd);
   } catch (err) {
-    const errorMsg = err.errors.map(e => e.message);
-    res.status(400).json({ error: errorMsg[0] });
+    res.status(400).json(err.message);
+    // const errorMsg = err.errors.map(e => e.message);
+    // res.status(400).json({ error: errorMsg[0] });
   }
 };
 

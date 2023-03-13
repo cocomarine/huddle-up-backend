@@ -10,6 +10,16 @@ module.exports = (connection, DataTypes) => {
         },
       },
     },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: [true],
+          msg: "event date is required",
+        },
+      },
+    },
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
