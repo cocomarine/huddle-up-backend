@@ -30,6 +30,10 @@ module.exports = (connection, DataTypes) => {
         },
       },
     },
+    participants: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     total_votes: {
       type: DataTypes.INTEGER,
     },
