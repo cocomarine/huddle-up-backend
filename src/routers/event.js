@@ -9,4 +9,6 @@ eventRouter.get('/:id', eventController.getEventById);
 eventRouter.patch('/:id', eventController.updateEventById);
 eventRouter.delete('/:id', eventController.deleteEventById);
 
+eventRouter.get('/:id/votes', eventController.getEventVotesById);
+
 module.exports = eventRouter;

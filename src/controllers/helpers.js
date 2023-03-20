@@ -1,3 +1,4 @@
+const { Sequelize, Op } = require('sequelize');
 const { User, Event, Suggestion, UserEvent } = require('../models');
 const getError404 = (model) => ({ error: `${model} does not exist` });
 
@@ -67,6 +68,7 @@ const getAllEntry = async (res, model) => {
 const getEntryById = async (res, model, id) => {
   try {
     const Model = getModel(model);
+
     const entry = await Model.findByPk(id, getOptions(model));
 
     if (!entry) res.status(404).json(getError404(model));
@@ -110,4 +112,49 @@ const deleteEntryById = async (res, model, id) => {
   }
 };
 
-module.exports = { getModel, createEntry, getAllEntry, getEntryById, updateEntryById, deleteEntryById };
+
+const getVotesById = async (res, model, id) => {
+
+  const Model = getModel(model);
+
+  try {
+    if (model === 'event') {
+      // total votes for an event: 
+      // by counting EventId column with voted_suggestionId not null
+      const countEventVotes = await UserEvent.findAll({
+        raw: true,
+        attributes: ['EventId', 
+          [Sequelize.fn('COUNT', Sequelize.col('EventId')), `${Model}.calc_total_event_votes`]
+        ],
+        where: {
+          voted_suggestionId: {
+            [Op.not]: null,
+          }
+        },
+        group: `${Model}`.id,
+      });
+      
+      res.status(200).json(countEventVotes);
+    }
+    if (model === 'suggestion') {
+      // total votes count for a suggestion (votes column in Suggestions table): 
+      // by counting voted_suggestionId of UserEvent table that match id of Suggestions table
+      const countSugVotes = await UserEvent.findAll({
+        raw: true,
+        attributes: [`${Model}`.id, 
+          [Sequelize.fn('COUNT', Sequelize.col('voted_suggestionId')), `${Model}.calc_sug_votes`]
+        ],
+        where: {
+          voted_suggestionId: `${Model}`.id
+        },
+        group: `${Model}`.id,
+      });
+
+      res.status(200).json(countSugVotes);
+    }
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
+
+module.exports = { getModel, createEntry, getAllEntry, getEntryById, updateEntryById, deleteEntryById, getVotesById };

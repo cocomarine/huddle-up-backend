@@ -9,7 +9,7 @@ module.exports = (connection, DataTypes) => {
     },
     voted_suggestionId: {
       type: DataTypes.INTEGER,
-    }
+    },
   };
   const UserEventModel = connection.define('UserEvent', schema);
   return UserEventModel;
