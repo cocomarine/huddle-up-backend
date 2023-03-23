@@ -15,8 +15,7 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(password, 8)
   })
     .then(res.send({ 
-      // message: "User is registered succesfully!",
-      // user_data: req.body,
+      message: "User is registered succesfully!",
     }))
     .catch((err) => {
       return res.status(500).send({ message: err.message });

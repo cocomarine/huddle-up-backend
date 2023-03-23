@@ -3,6 +3,9 @@ module.exports = (connection, DataTypes) => {
     suggestion: {
       type: DataTypes.TEXT,
     },
+    place_id: {
+      type: DataTypes.STRING,
+    },
     votes: {
       type: DataTypes.INTEGER,
       allowNull: false,
