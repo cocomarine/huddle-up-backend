@@ -17,7 +17,7 @@
 
 This is an app for organising meet-ups with groups of friends and family created by using React, ExpressJS and PosgreSQL.
 Users can create events and invite others to join. Upon creating and/or joining an event, users can make a suggestion and/or cast a vote on the event location. When everyone finishes voting, the most voted option is displayed. 
-This is the backend repo for the app created by [HJ](https://github.com/cocomarine) and [Rayhan](https://github.com/RayBeera) as part of the Command Shift bootcamp course [(frontend repo)](https://github.com/RayBeera/HuddleUp-frontend).
+This is the backend repo for the app created by [HJ](https://github.com/cocomarine) and [Rayhan](https://github.com/RayBeera) as part of the Command Shift bootcamp course [(original frontend repo](https://github.com/RayBeera/HuddleUp-frontend), [latest frontend repo)](https://github.com/cocomarine/huddle-up-frontend). 
 
 ## How it works
 
@@ -32,9 +32,9 @@ This project involves creating an Express API that stores information about user
 - Routing, middleware and controller functions
 - Database synchronisation, manipuation and validation using Sequelize, a promise-based Node.js ORM (Object-Relational Mapping) tool
 - Establishing complex relationships between database tables
-- XXXX use of auth controllerXXXX
-- use of cor XXXX
-- Creating test and development PostgreSQL databases in a Docker container for dev environment XXXX
+- Authentication and authorisation using bcrypt and JWT (JSON Web Token)
+- Use of CORS (Cross-Origin Resource Sharing) to allow whitelisted requests to the web server
+- Creating test and development PostgreSQL databases in a Docker container
 - Use of helpers and refractoring to make code DRY
 - Using Postman to manage API requests
 - Integration testing using Mocha, Chai and SuperTest
